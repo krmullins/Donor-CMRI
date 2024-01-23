@@ -1,0 +1,167 @@
+Error checking: 
+Finished error checking.
+Output folder: C:\xampp\htdocs\Donor-CMRI
+Copying csv files ... Done.
+Copying datepicker files ... Done.
+Copying images files ... Done.
+Copying initializr files ... Done.
+Copying jquery files ... Done.
+Copying lightbox files ... Done.
+Copying select2 files ... Done.
+Copying table_icons files ... Done.
+Copying timepicker files ... Done.
+Copying moment files ... Done.
+Copying bootstrap-datetimepicker files ... Done.
+Copying lib files ... Done.
+Copying hotkeys files ... Done.
+Generating Supporters_view.php ... Done.
+Generating Campaigns_view.php ... Done.
+Generating Donations_view.php ... Done.
+Generating Notes_view.php ... Done.
+Generating MatchingFunds_view.php ... Done.
+Generating Settings_view.php ... Done.
+Generating Supporters_dml.php ... Done.
+Generating Campaigns_dml.php ... Done.
+Generating Donations_dml.php ... Done.
+Generating Notes_dml.php ... Done.
+Generating MatchingFunds_dml.php ... Done.
+Generating Settings_dml.php ... Done.
+Generating Supporters_autofill.php ... Done.
+Generating Campaigns_autofill.php ... Done.
+Generating Donations_autofill.php ... Done.
+Generating Notes_autofill.php ... Done.
+Generating MatchingFunds_autofill.php ... Done.
+Generating Settings_autofill.php ... Done.
+Generating templates/Supporters_templateTV.html ... Done. Done.
+Generating templates/Campaigns_templateTV.html ... Done. Done.
+Generating templates/Donations_templateTV.html ... Done. Done.
+Generating templates/Notes_templateTV.html ... Done. Done.
+Generating templates/MatchingFunds_templateTV.html ... Done. Done.
+Generating templates/Settings_templateTV.html ... Done. Done.
+Generating templates/Supporters_templateDV.html ... Done.
+Generating templates/Campaigns_templateDV.html ... Done.
+Generating templates/Donations_templateDV.html ... Done.
+Generating templates/Notes_templateDV.html ... Done.
+Generating templates/MatchingFunds_templateDV.html ... Done.
+Generating templates/Settings_templateDV.html ... Done.
+Generating templates/Supporters_templateDVP.html ... Done.
+Generating templates/Campaigns_templateDVP.html ... Done.
+Generating templates/Donations_templateDVP.html ... Done.
+Generating templates/Notes_templateDVP.html ... Done.
+Generating templates/MatchingFunds_templateDVP.html ... Done.
+Generating templates/Settings_templateDVP.html ... Done.
+Generating children-Supporters.php ... Done.
+Generating children-Campaigns.php ... Done.
+Generating children-Donations.php ... Done.
+Generating children-Notes.php ... Done.
+Generating children-MatchingFunds.php ... Done.
+Generating children-Settings.php ... Done.
+Generating children-Supporters-printable.php ... Done.
+Generating children-Campaigns-printable.php ... Done.
+Generating children-Donations-printable.php ... Done.
+Generating children-Notes-printable.php ... Done.
+Generating children-MatchingFunds-printable.php ... Done.
+Generating children-Settings-printable.php ... Done.
+Generating templates/Supporters-ajax-cache.php ... Done.
+Generating templates/Campaigns-ajax-cache.php ... Done.
+Generating templates/Donations-ajax-cache.php ... Done.
+Generating templates/Notes-ajax-cache.php ... Done.
+Generating templates/MatchingFunds-ajax-cache.php ... Done.
+Generating templates/Settings-ajax-cache.php ... Done.
+Generating lib.php ... Done.
+Generating db.php ... Done.
+Generating ajax_combo.php ... Done.
+Generating dynamic.css ... Done.
+Generating updateDB.php ... Done.
+Generating setup.php ... Done.
+Generating settings-manager.php ... Done.
+Generating index.html ... Done.
+Generating datalist.php ... Done.
+Generating defaultFilters.php ... Done.
+Generating checkMemberID.php ... Done.
+Generating membership_signup.php ... Done.
+Generating membership_thankyou.php ... Done.
+Generating membership_passwordReset.php ... Done.
+Generating membership_profile.php ... Done.
+Generating incCommon.php ... Done.
+Generating parent-children.php ... Done.
+Generating index.php ... Done.
+Generating login.php ... Done.
+Generating home.php ... Done.
+Generating defaultLang.php ... Done.
+Copying table.gif...  Done.
+Copying language.php...  Done.
+Copying blank.gif...  Done.
+Copying handshake.svg...  Done.
+Copying loading.gif...  Done.
+Copying nicEdit.js...  Done.
+Copying nicEditorIcons.gif...  Done.
+Copying photo.gif...  Done.
+Copying logo.png...  Done.
+Copying shortcuts.js...  Done.
+Copying admin/toolTips.js ... Done.
+Copying admin/adminStyles.css ... Done.
+Copying admin/images/helpBg.gif ... Done.
+Copying icons to admin/images ... Done.
+Creating header.php and footer.php in output folder ... Done.
+Generating common.js ... Done.
+Generating thumbnail.php ... Done.
+Generating link.php ... Done.
+Generating ajax_check_unique.php ... Done.
+Generating ajax_check_login.php ... Done.
+Generating ajax_admin_tools.php ... Done.
+Generating ajax-update-calculated-fields.php ... Done.
+Generating cli-update-calculated-fields.php ... Done.
+Generating import-csv.php ... Done.
+Generating definitions.php ... Done.
+Generating file-uploader.php ... Done.
+Generating hooks (no overwriting) ... Done.
+Generating hooks/README.html ... Done.
+Generating admin/toolTipData.js ... Done.
+Generating admin/incCommon.php ... Done.
+Generating admin/incFooter.php ... Done.
+Generating admin/incHeader.php ... Done.
+Generating admin/incFunctions.php ... Done.
+Generating admin/pageViewRecords.php ... Done.
+Generating admin/index.php ... Done.
+Generating admin/pageAssignOwners.php ... Done.
+Generating admin/pageChangeMemberStatus.php ... Done.
+Generating admin/pageDeleteGroup.php ... Done.
+Generating admin/pageDeleteMember.php ... Done.
+Generating admin/pageDeleteRecord.php ... Done.
+Generating admin/pageEditGroup.php ... Done.
+Generating admin/pageEditMember.php ... Done.
+Generating admin/pageEditMemberPermissions.php ... Done.
+Generating admin/pageEditOwnership.php ... Done.
+Generating admin/pageHome.php ... Done.
+Generating admin/pagePrintRecord.php ... Done.
+Generating admin/pageMail.php ... Done.
+Generating admin/pageViewMembers.php ... Done.
+Generating admin/pageSender.php ... Done.
+Generating admin/pageSettings.php ... Done.
+Generating admin/pageTransferOwnership.php ... Done.
+Generating admin/pageViewGroups.php ... Done.
+Generating admin/pageUploadCSV.php ... Done.
+Generating admin/pageRebuildThumbnails.php ... Done.
+Generating admin/pageRebuildFields.php ... Done.
+Generating admin/getUsers.php ... Done.
+Generating admin/ajax-maintenance-mode.php ... Done.
+Generating admin/pageBackupRestore.php ... Done.
+Generating admin/pageServerStatus.php ... Done.
+Generating admin/app-documentation.php ... Done.
+Generating admin/pageSQL.php ... Done.
+Generating admin/ajax-sql.php ... Done.
+Generating admin/pageSQL.js ... Done.
+Generating admin/ajax-saved-sql.php ... Done.
+Generating admin/pageQueryLogs.php ... Done.
+Generating admin/pageTranslation.php ... Done.
+Generating admin/pageUpdateCalculatedFields.php ... Done.
+Generating admin/pageInstallPlugin.php ... Done.
+---
+Files generated: 156
+Files skipped: 0
+Files failed: 0
+---
+PHP Application generated successfully on 1/22/2024 at 4:15:37 PM.
+For help on using the generated PHP application, please refer to
+the section "Working with generated applications" in Help.

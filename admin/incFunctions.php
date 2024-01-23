@@ -124,7 +124,7 @@
 					'Description' => 'A listing of all your donations.',
 					'tableIcon' => 'resources/table_icons/32Px - 385.png',
 					'group' => $tg[1],
-					'homepageShowCount' => 0
+					'homepageShowCount' => 1
 				],
 				'Notes' => [
 					'Caption' => 'Notes',
