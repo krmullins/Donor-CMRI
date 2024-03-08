@@ -79,11 +79,16 @@
           <div class="dropdown-divider"></div>';
             }
             if ($group !== "anonymous") {
-              echo ' <a href="' . $userprofileLink . '" class="dropdown-item">
-          <i class="fas fa-user mr-2"></i> ' . $translate['profile'] . '
-          <span class="float-right text-muted text-sm fa fa-arrow-right"></span>
-        </a>
-        <div class="dropdown-divider"></div>';
+                echo ' <a href="' . $userprofileLink . '" class="dropdown-item">
+                <i class="fas fa-user mr-2"></i> ' . $translate['profile'] . '
+                <span class="float-right text-muted text-sm fa fa-arrow-right"></span>
+              </a>
+              <div class="dropdown-divider"></div>';
+              echo ' <a href="appginilte_profile_image.php" class="dropdown-item">
+              <i class="far fa-user-circle mr-2"></i> ' . $translate['profile image'] . '
+              <span class="float-right text-muted text-sm fa fa-arrow-right"></span>
+            </a>
+            <div class="dropdown-divider"></div>';
             }
             ?>
             <div class="dropdown-divider"></div>
@@ -173,7 +178,7 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="https://ui-avatars.com/api/?name=<?php echo $username; ?>&background=random"
+            <img src="<?=$profile_image_path; ?>"
               class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">

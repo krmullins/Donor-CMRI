@@ -30,8 +30,8 @@ $site_addr = rtrim($site_addr, "/\\") . "/";
 define("SITE_ADDR", $site_addr);
 //check if we need to run updates
 if (file_exists('appginilte/aru.bin')) {
-	if ($group == "Admins") {
-		echo '<script>var confirmed = confirm("Install Important Updates Now..."); /*Check if the user clicked "ok"*/ if (confirmed) { /*Redirect to another page*/ window.location.href = "appginilte_install.php?aru=1"; }</script>';
+	if ($group == "Admins" && strpos($_SERVER['REQUEST_URI'], 'appginilte_install.php') === false) {
+		echo '<script>var confirmed = confirm("Install Latest Updates Now..."); /*Check if the user clicked "ok"*/ if (confirmed) { /*Redirect to another page*/ window.location.href = "appginilte_install.php?aru=1"; }</script>';
 	}
 }
 include 'config.php';
@@ -50,6 +50,10 @@ $dashboardWelcomeMessage = $generalsettingsData['dashboardWelcomeMessage'] ? $ge
 $siteLoader = $generalsettingsData['siteLoader'] ? $generalsettingsData['siteLoader'] : 'https://hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif';
 $enablethemeswitcherAppgini = $generalsettingsData['enablethemeswitcherAppgini'] ? $generalsettingsData['enablethemeswitcherAppgini'] : 0;
 $enableRTL = $generalsettingsData['enableRTL'] ? $generalsettingsData['enableRTL'] : 0;
+$enablestyledtable= $generalsettingsData['enablestyledtable'] ? $generalsettingsData['enablestyledtable'] : 0;
+$tableColor = $generalsettingsData['tableColor'] ? $generalsettingsData['tableColor'] : '#3772ff';
+$tableTextColor = $generalsettingsData['tableTextColor'] ? $generalsettingsData['tableTextColor'] : '#ffffff';
+$disableadmintwitterfeed= $generalsettingsData['disableadmintwitterfeed'] ? $generalsettingsData['disableadmintwitterfeed'] : 0;
 
 if ($group == "Admins") {
 	$adminltesettings = is_numeric($acesspermsData['adminltesettings']) ? $acesspermsData['adminltesettings'] : 0;
@@ -86,6 +90,9 @@ $accent_color_variant = $customizations['accent_color_variant'] ? $customization
 $dark_sidebar_variant = $customizations['dark_sidebar_variant'] ? $customizations['dark_sidebar_variant'] : '';
 $light_sidebar_variant = $customizations['light_sidebar_variant'] ? $customizations['light_sidebar_variant'] : '';
 $brand_logo_variant = $customizations['brand_logo_variant'] ? $customizations['brand_logo_variant'] : 'dark';
+//member profile picture
+$profile_picture = get_option($username.'_profile_picture');
+$profile_image_path = $profile_picture ? 'alte_uploads/'.basename($profile_picture) : 'appginilte/dist/img/avatar.png';
 //check login otp
 /**
  * Summary of check_otp
@@ -2548,7 +2555,8 @@ function showCalendar(
 		'eventDisplayDefault' => true,
 		'eventListToggler' => true,
 	],
-	$event_action_code = ''
+	$event_action_code = '',
+	$date_action_code=''
 ) {
 	$calendarID = uniqid();
 	$getcalendarEvents = sql($calendar_query, $eo);
@@ -2608,9 +2616,139 @@ function showCalendar(
 		const eventDescription=  activeEvent.description;
 		//your custom event logic passed in from the function, should be js code.
 		' . $event_action_code . '
+	}).on(\'selectDate\', function(event, newDate, oldDate) {
+		const SelectednewDate = newDate;
+		const SelectedoldDate = oldDate;
+		'.$date_action_code.'
 	});
 	})
   </script>';
+	return $calendar_body;
+}
+
+/**
+ * Generates a full calendar with customizable options.
+ *
+ * @param string $title The title of the calendar. Default is "My Calendar".
+ * @param string $calendar_query The query to fetch calendar events. Default is an empty string.
+ * @param string $card_color The color of the card. Default is "dark".
+ * @param string $card_size The size of the card. Default is "col-md-12".
+ * @param string $card_outline Whether the card has an outline or not. Default is "Yes".
+ * @param string $card_collapsed Whether the card is collapsed or not. Default is "No".
+ * @param string $event_action_code The code to execute when an event is clicked. Default is an empty string.
+ * @param string $date_action_code The code to execute when a date is clicked. Default is an empty string.
+ * @param string $initialView The initial view of the calendar. Default is "dayGridMonth".
+ * @throws Some_Exception_Class Exception description, if any.
+ * @return string The generated calendar HTML.
+ */
+function showFullCalendar($title = "My Calendar",
+$calendar_query = '',
+$card_color = "dark",
+$card_size = "col-md-12",
+$card_outline = "Yes",
+$card_collapsed = "No",
+$event_action_code = '',
+$date_action_code='',
+$initialView='dayGridMonth'){
+	$calendarID = uniqid();
+	$getcalendarEvents = sql($calendar_query, $eo);
+	$allEvents = array();
+	foreach ($getcalendarEvents as $calendarEvent) {
+		$id = $calendarEvent['id'] ? $calendarEvent['id'] : mt_rand();
+		$name = $calendarEvent['name'] ? $calendarEvent['name'] : 'event name';
+		$color = $calendarEvent['color'] ? $calendarEvent['color'] : '';
+		$start_date = $calendarEvent['start_date'] ? $calendarEvent['start_date'] : '';
+		$end_date = $calendarEvent['end_date'] ? $calendarEvent['end_date'] : '';
+			
+		$allEvents[] = array(
+			'id' => $id,
+			'title' => $name,
+			'start' => $start_date,
+			'end' => $end_date,
+			'color' => $color,
+		);
+	}
+	$calendar_body = showDataCard($title, '<div id="' . $calendarID . '"></div>', $card_color, $card_size, $card_outline, $card_collapsed);
+	$calendar_body .= '<script src=\'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js\'></script>';
+	$calendar_body .= "<script>document.addEventListener('DOMContentLoaded', function () {
+		var calendarEl = document.getElementById('" . $calendarID . "');
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+		  initialView: '".$initialView."', // Set the default view to month
+		  events: 
+			".json_encode($allEvents).",
+		  selectable: true,
+		  eventClick: function (info) {
+			const eventTile= info.event.title;
+			const eventColor= info.event.color;
+			const eventID= info.event.id;
+			const eventStart= info.event.start;
+			const eventEnd= info.event.end;
+			".$event_action_code."
+		  },
+		  dateClick: function (info) {
+			const clickedDate = info.dateStr;
+			".$date_action_code."
+		  },
+		  headerToolbar: {
+			left: 'prevYear,prev,next,nextYear today',
+			center: 'title',
+			right: 'dayGridMonth,timeGridWeek,timeGridDay',
+		  },
+		  views: {
+			dayGridMonth: {
+			  type: 'dayGrid',
+			  buttonText: 'Month',
+			},
+			timeGridWeek: {
+			  type: 'timeGridWeek',
+			  buttonText: 'Week',
+			},
+			timeGridDay: {
+			  type: 'timeGridDay',
+			  buttonText: 'Day',
+			},
+		  },
+		  customButtons: {
+			prevYear: {
+			  text: 'Prev Year',
+			  click: function () {
+				calendar.prevYear();
+			  },
+			},
+			nextYear: {
+			  text: 'Next Year',
+			  click: function () {
+				calendar.nextYear();
+			  },
+			},
+		  },
+		});
+		calendar.render();
+		// Adding a custom dropdown for selecting a specific month
+		var monthDropdown = document.createElement('select');
+		monthDropdown.classList.add('form-group');     
+		monthDropdown.innerHTML = `<option value=\"\">Jump To Month</option>
+		<option value=\"0\">January</option>
+		<option value=\"1\">February</option>
+		<option value=\"2\">March</option>
+		<option value=\"3\">April</option>
+		<option value=\"4\">May</option>
+		<option value=\"5\">June</option>
+		<option value=\"6\">July</option>
+		<option value=\"7\">August</option>
+		<option value=\"8\">September</option>
+		<option value=\"9\">October</option>
+		<option value=\"10\">November</option>
+		<option value=\"11\">December</option>`;
+		monthDropdown.addEventListener('change', function () {
+		  var selectedMonth = this.value;
+		  calendar.gotoDate(new Date(calendar.getDate().getFullYear(), selectedMonth));
+		});
+		var toolbarCenter = document.querySelector('.fc-header-toolbar');
+		toolbarCenter.appendChild(monthDropdown);
+	  });
+	</script>";
+
 	return $calendar_body;
 }
 
@@ -2781,4 +2919,99 @@ function showDropZone($field_configs = [])
     </script>';
 
     return $code;
+}
+
+/**
+ * Display a popup with the specified header image, title, body, and optional action button.
+ *
+ * @param mixed $headerImage The URL of the header image
+ * @param string $title The title of the popup
+ * @param string $body The body content of the popup
+ * @param string $actionText The text for the optional action button (default: '')
+ * @param string $actionJs The JavaScript code to be executed when the action button is clicked (default: '')
+ */
+function showPopup($headerImage,$title,$body,$actionText='',$actionJs='') {
+    echo '
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Popup Example</title>
+            <style>
+                body {
+                    margin: 0;
+                    padding: 0;
+                    font-family: \'Arial\', sans-serif;
+                    background: #f0f0f0;
+                }
+
+                .popup {
+                    display: none;
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 400px;
+                    background: #fff;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                    padding: 20px;
+                    text-align: center;
+                }
+
+                .popup img {
+                    width: 100%;
+                    border-radius: 8px;
+                }
+
+                .popup h2 {
+                    margin-top: 0;
+                    color: #333;
+                }
+
+                .popup p {
+                    color: #555;
+                }
+
+                .popup button {
+                    margin-top: 15px;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    border: none;
+                    background: #3498db;
+                    color: #fff;
+                    border-radius: 5px;
+                }
+            </style>
+        </head>
+        <body>
+
+        <div class="popup" id="popup">
+            <img src="' . $headerImage . '" alt="Background Image">
+            <h2>' . $title . '</h2>
+            <p>' . $body . '</p>
+            <button onclick="closePopup()">Close</button>
+            '.(!empty($actionText) ? '<button onclick="performAction()">' . $actionText . '</button>' : '').'
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                showPopup();
+            });
+
+            function showPopup() {
+                document.getElementById("popup").style.display = "block";
+            }
+            function closePopup() {
+                document.getElementById("popup").style.display = "none";
+            }
+            function performAction() {
+                // Add your action logic here
+                '.$actionJs.'
+                closePopup();
+            }
+        </script>
+        </body>
+        </html>
+    ';
 }

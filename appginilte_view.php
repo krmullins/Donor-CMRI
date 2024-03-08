@@ -13,6 +13,16 @@ if (strpos($page_title, "_view")) {
     $json = json_encode(get_tables_info(true));
     $decode = json_decode($json, true);
     $page_title = $decode[$rtrim_page_title]['Caption'];
+    $tables = getTableList();
+    $tables = array_keys($tables);
+    $currentURL = "$_SERVER[REQUEST_URI]";
+    $currentURL = substr($currentURL, strrpos($currentURL, '/') + 1);
+    //check if rtrim_page_title is in tables
+    if (!in_array($rtrim_page_title, $tables)) {
+        //create cookie to store currentURL
+        setcookie("currentURL", $currentURL, time() + (86400 * 30), "/");
+        redirect('index.php?signOut=1&ref=1', false);
+    }
 }
 //remove unwanted characters
 $page_title = str_replace(array('-', '/', '_', 'appginilte', 'plugins'), ' ', $page_title);
@@ -49,7 +59,6 @@ $page_title = ucwords($page_title);
 
     <!-- Main content -->
     <section class="content">
-
         <div class="container-fluid">
             <div class="col-lg-12">
                 <div class="card card-outline card-<?= strtolower($brand_logo_variant); ?>">
@@ -61,11 +70,13 @@ $page_title = ucwords($page_title);
                         <div class="text-right">
                             <div class="btn-group">
                                 <?php if (userCanImport()) { ?>
-                                    <a type="button" class="btn btn-default" href="appginilte_view.php?page=import-csv.php?Embedded=true">
+                                    <a type="button" class="btn btn-default"
+                                        href="appginilte_view.php?page=import-csv.php?Embedded=true">
                                         <i class="fas fa-file-import"></i>
                                     </a>
                                 <?php } ?>
-                                <button type="button" class="btn btn-default" onclick="document.getElementById('child-iframe').contentWindow.location.reload();">
+                                <button type="button" class="btn btn-default"
+                                    onclick="document.getElementById('child-iframe').contentWindow.location.reload();">
                                     <i class="fas fa-sync-alt"></i>
                                 </button>
                                 <a type="button" class="btn btn-default" onclick="window.history.back();">
@@ -75,12 +86,25 @@ $page_title = ucwords($page_title);
                         </div>
                     </div>
                     <div class="card-body" id="theframeparent">
-                        <iframe class="responsive-iframe" src="<?php echo $page; ?>" id="child-iframe" scrolling="no"></iframe>
+                        <iframe class="responsive-iframe" src="<?php echo $page; ?>" id="child-iframe"
+                            scrolling="no"></iframe>
                     </div>
                     <script>
                         let iframe = document.getElementById('child-iframe');
-                        iframe.addEventListener('load', function() {
-                            setInterval(function() {
+                        iframe.addEventListener('load', function () {
+                            let iframeUrl = iframe.contentWindow.location.href;
+                            //check if current url contains index.php?signIn=1
+                            if (iframeUrl.includes("index.php?signIn=1")) {
+                                var currentURL = window.location.href;
+                                var startIndex = currentURL.indexOf('appginilte_view');
+                                if (startIndex !== -1) {
+                                    var result = currentURL.substr(startIndex);
+                                    document.cookie = "currentURL=" + encodeURIComponent('' + result + '') + "; expires=" + new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toUTCString() + "; path=/";
+                                }
+                                //redirect to: index.php?signOut=1&ref=1
+                                window.location.href = "index.php?signOut=1&ref=1";
+                            }
+                            setInterval(function () {
                                 var height = iframe.contentDocument.body.scrollHeight;
                                 var width = iframe.contentDocument.body.scrollWidth;
                                 if (height < 900) {
@@ -91,9 +115,9 @@ $page_title = ucwords($page_title);
                                 iframe.style.width = '100%';
                             }, 100);
                         });
-                        $(window).resize(function() {
+                        $(window).resize(function () {
                             //make iframe full width and responsive
-                            setInterval(function() {
+                            setInterval(function () {
                                 var height = iframe.contentDocument.body.scrollHeight;
                                 var width = $(this).width();
                                 if (height < 900) {
@@ -106,7 +130,7 @@ $page_title = ucwords($page_title);
                         });
                         // Listen for changes to the side menu
                         const toggleBtn = document.getElementById("toggleBtnId");
-                        toggleBtn.addEventListener("click", function() {
+                        toggleBtn.addEventListener("click", function () {
                             // Set the width of the iframe to match the parent div
                             iframe.style.width = '100%';
                         });
@@ -136,7 +160,7 @@ $page_title = ucwords($page_title);
             iframe.style.width = '100%';
 
             // Add an event listener to the iframe to adjust its height
-            iframe.addEventListener('load', function() {
+            iframe.addEventListener('load', function () {
                 iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
             });
 
@@ -151,7 +175,7 @@ $page_title = ucwords($page_title);
             modal.show();
         }
     </script>
-    <div class="modal fade" id="modal-xl">
+    <div class="modal fade" id="modal-xl" tabindex="-1" role="dialog" style="width: 100%;">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">

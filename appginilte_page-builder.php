@@ -195,6 +195,10 @@ $page = $_REQUEST['edit'];
                             <input type="text" class="form-control" id="pageIcon" name="pageIcon" placeholder="' . $translate['Page Font Awosome Icon'] . '" required>
                         </div>
                         <div class="form-group">
+                            <label for="pageIcon">' . $translate['page_icon_image'] . '</label>
+                            <input type="text" class="form-control" id="pageIconImage" name="pageIconImage" placeholder="images/icon.png">
+                        </div>
+                        <div class="form-group">
                             <label for="pageGroup">' . $translate['page_table_group'] . '</label>
                             <select class="form-control" id="pageGroup" name="pageGroup" required>
                             <option value="None">' . $translate['None'] . '</option>
@@ -259,6 +263,10 @@ $page = $_REQUEST['edit'];
                             <input type="text" class="form-control" id="pageIcon" name="pageIcon" placeholder="' . $translate['Page Font Awosome Icon'] . '" value="' . $efile_contents['pageIcon'] . '" required>
                         </div>
                         <div class="form-group">
+                            <label for="pageIcon">' . $translate['page_icon_image'] . '</label>
+                            <input type="text" class="form-control" id="pageIconImage" name="pageIconImage" placeholder="images/icon.png" value="' . $efile_contents['pageIconImage'] . '">
+                        </div>
+                        <div class="form-group">
                             <label for="pageGroup">' . $translate['page_table_group'] . '</label>
                             <select class="form-control" id="pageGroup" name="pageGroup" required>
                             <option value="None" ' . ($pageGroup == 'None' ? 'selected' : '') . '>None</option>
@@ -306,6 +314,10 @@ $page = $_REQUEST['edit'];
                                     <input type="text" class="form-control" id="customGroupIcon" name="customGroupIcon" placeholder="' . $translate['group_icon'] . '" value="" required>
                                 </div>
                                 <div class="form-group">
+                                <label>' . $translate['alt_group_icon_image'] . ' </label>
+                                <input class="form-control" name="customGroupImage" placeholder="folder/image.png" type="text" />
+                                </div>
+                                <div class="form-group">
                                     <label for="menu_always_collapsed">' . $translate['menu_always_collapsed'] . '</label>
                                     <select class="form-control" id="customGroupCollapsed" name="customGroupCollapsed" required>
                                         <option value="No">' . $translate['no'] . '</option>
@@ -334,6 +346,7 @@ $page = $_REQUEST['edit'];
                                     $custom_menu_icon = $cmenu['customGroupIcon'];
                                     $custom_menu_collapsed = $cmenu['customGroupCollapsed'];
                                     $custom_menu_hidenav = $cmenu['CustomGroupHidenavmenu'];
+                                    $custom_menu_image= $cmenu['customGroupImage'];
                                     $editgroupform = '<form action="appginilte_page-builder.php" method="POST">
                                     <div class="form-group">
                                         <label for="pageName">' . $translate['group_name'] . '</label>
@@ -342,6 +355,10 @@ $page = $_REQUEST['edit'];
                                     <div class="form-group">
                                         <label for="pageIcon">' . $translate['group_icon'] . '</label>
                                         <input type="text" class="form-control" id="customGroupIcon" name="customGroupIcon" placeholder="' . $translate['group_icon'] . '" value="' . $custom_menu_icon . '" required>
+                                    </div>
+                                    <div class="form-group">
+                                    <label>' . $translate['alt_group_icon_image'] . ' </label>
+                                    <input class="form-control" name="customGroupImage" placeholder="folder/image.png" type="text" value="' . $custom_menu_image . '" />
                                     </div>
                                     <div class="form-group">
                                         <label for="menu_always_collapsed">' . $translate['menu_always_collapsed'] . '</label>
@@ -497,6 +514,7 @@ if (isset($_POST['createCustomMenu'])) {
     $customGroupIcon = $_POST['customGroupIcon'];
     $customGroupCollapsed = $_POST['customGroupCollapsed'];
     $CustomGroupHidenavmenu = $_POST['CustomGroupHidenavmenu'];
+    $customGroupImage = $_POST['customGroupImage'];
     $menuID = "cpm_" . time();
     $_POST['menuID'] = $menuID;
     //get file contents
@@ -520,6 +538,7 @@ if (isset($_POST['editCustomMenu'])) {
     $customGroupIcon = $_POST['customGroupIcon'];
     $customGroupCollapsed = $_POST['customGroupCollapsed'];
     $CustomGroupHidenavmenu = $_POST['CustomGroupHidenavmenu'];
+    $customGroupImage = $_POST['customGroupImage'];
     $menuID = $_POST['menuID'];
     $custom_menus = file_get_contents('appginilte/jsondb/custom_table_menus.json');
     // Convert the JSON object to an array
@@ -533,7 +552,8 @@ if (isset($_POST['editCustomMenu'])) {
         'customGroupName' => $customGroupName,
         'customGroupIcon' => $customGroupIcon,
         'customGroupCollapsed' => $customGroupCollapsed,
-        'CustomGroupHidenavmenu' => $CustomGroupHidenavmenu
+        'CustomGroupHidenavmenu' => $CustomGroupHidenavmenu,
+        'customGroupImage' => $customGroupImage
     );
 
     // Loop through the array and update the item with the specified menuID

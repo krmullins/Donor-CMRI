@@ -91,11 +91,12 @@ if ($group !== "Admins") {
                                     $cjson = get_option('groups_config');
                                     foreach ($groups as $grp => $tables) {
                                         if ($grp !== "None") {
-                                            $gn = str_replace(" ", "_", $grp);
-                                            $group_fa = $cjson[$gn . '_fa'] ? $cjson[$gn . '_fa'] : 'fa fa-table';
+                                            $gn=crc32($grp);
+                                            $group_fa = $cjson[$gn . '_fa'] ? $cjson[$gn . '_fa'] : '';
                                             $group_hpd = $cjson[$gn . '_hpd'] ? $cjson[$gn . '_hpd'] : 'default';
                                             $group_cc = $cjson[$gn . '_cc'] ? $cjson[$gn . '_cc'] : 'primary';
                                             $group_collapsed= $cjson[$gn . '_collapsed'];
+                                            $group_ico= $cjson[$gn . '_ico'] ? $cjson[$gn . '_ico'] : '';
                                             echo '<div class="card card-primary collapsed-card">
                                             <div class="card-header" data-card-widget="collapse">
                                             <h3 class="card-title">'.$grp.'</h3>
@@ -109,7 +110,11 @@ if ($group !== "Admins") {
                                             echo ' <div class="row">
                                             <div class="col-lg-4 col-sm-12">
                                         <label class="text-primary">' . $grp . ' ' . $translate['group_icon'] . ' <span class="' . $group_fa . '"></span></label>
-                                        <input class="form-control" value="' . $group_fa . '" name="' . $gn . '_fa" type="text" />
+                                        <input class="form-control" value="' . $group_fa . '" name="' . $gn . '_fa" placeholder="fa fa-table" type="text" />
+                                        </div>
+                                        <div class="col-lg-4 col-sm-12">
+                                        <label>' . $translate['alt_group_icon_image'] . ' </label>
+                                        <input class="form-control" value="' . $group_ico . '" name="' . $gn . '_ico" placeholder="folder/image.png" type="text" />
                                         </div>
                                         <div class="col-lg-4 col-sm-12">
                                         <label>' . $translate['home_page_display'] . '</label>
@@ -641,11 +646,18 @@ if ($group !== "Admins") {
                                             <label><i><?php echo $translate['user_session_expiry']; ?></i></label>
                                             <input type="number" class="form-control" value="<?php echo $sessionExpiry; ?>" name="sessionExpiry" placeholder="<?php echo $translate['enter_user_session_expiry']; ?>" min="1" max="86400">
                                         </div>
-                                        <div class="col-lg-4 col-sm-12">
+                                        <div class="col-lg-2 col-sm-12">
                                             <label><i><?php echo $translate['enable_custom_pages']; ?></i></label>
                                             <select id="enablecustompages" name="enablecustompages" class="form-control"">
                                                 <option value=" 1" <?php echo $enablecustompages == 1 ? 'selected' : ''; ?>><?php echo $translate['yes']; ?></option>
                                                 <option value="0" <?php echo $enablecustompages == 0 ? 'selected' : ''; ?>><?php echo $translate['no']; ?></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-2 col-sm-12">
+                                            <label><i><?php echo $translate['disable_admin_twitter_feed']; ?></i></label>
+                                            <select id="disableadmintwitterfeed" name="disableadmintwitterfeed" class="form-control"">
+                                                <option value=" 1" <?php echo $disableadmintwitterfeed == 1 ? 'selected' : ''; ?>><?php echo $translate['yes']; ?></option>
+                                                <option value="0" <?php echo $disableadmintwitterfeed == 0 ? 'selected' : ''; ?>><?php echo $translate['no']; ?></option>
                                             </select>
                                         </div>
                                         <div class="col-lg-4 col-sm-12">
@@ -672,6 +684,23 @@ if ($group !== "Admins") {
                                                 <option value=" 1" <?php echo $enableRTL == 1 ? 'selected' : ''; ?>><?php echo $translate['yes']; ?></option>
                                                 <option value="0" <?php echo $enableRTL == 0 ? 'selected' : ''; ?>><?php echo $translate['no']; ?></option>
                                             </select>
+                                        </div>
+                                        <!-- Enable Styled Table -->
+                                        <div class="col-lg-4 col-sm-12">
+                                            <label><i><?php echo $translate['enable_styled_table']; ?></i></label>
+                                            <select id="enablestyledtable" name="enablestyledtable" class="form-control"">
+                                                <option value=" 1" <?php echo $enablestyledtable == 1 ? 'selected' : ''; ?>><?php echo $translate['yes']; ?></option>
+                                                <option value="0" <?php echo $enablestyledtable == 0 ? 'selected' : ''; ?>><?php echo $translate['no']; ?></option>
+                                            </select>
+                                        </div>
+                                        <!-- two color pickers: table-background and color -->
+                                        <div class="col-lg-2 col-sm-12">
+                                            <label><i><?php echo $translate['table_color']; ?></i></label>
+                                            <input type="color" class="form-control" value="<?php echo $tableColor; ?>" name="tableColor" id="tableColor">
+                                        </div>
+                                        <div class="col-lg-2 col-sm-12">
+                                            <label><i><?php echo $translate['table_text_color']; ?></i></label>
+                                            <input type="color" class="form-control" value="<?php echo $tableTextColor; ?>" name="tableTextColor" id="tableTextColor">
                                         </div>
                                     </div>
                                     <br><button type="submit" class="btn btn-warning" name="generalsetts"><?php echo $translate['save_changes']; ?></button>

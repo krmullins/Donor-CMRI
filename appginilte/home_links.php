@@ -8,7 +8,7 @@ $ngtlink = '';
 foreach ($groups as $grp => $tables) {
     # code...
     $tlink = '';
-    $gn = str_replace(" ", "_", $grp);
+    $gn=crc32($grp);
     $group_hpd=$cjson[$gn . '_hpd'] ? $cjson[$gn . '_hpd'] : 'default';
     if ($grp !== "None" && $group_hpd !== "notgrouped") {
         // code...

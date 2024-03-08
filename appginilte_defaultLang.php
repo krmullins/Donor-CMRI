@@ -576,4 +576,21 @@ $translateEN=[
 //added in v 23.09.25
 'Do you really want to delete this item'=>'Do you really want to delete this item ?',
 'advanced_code_snippets'=>'Advanced Code Snippets',
+//added in v 24.03.01
+'profile image'=>'Profile Image',
+'Mange Your Profile Image'=>'Mange Your Profile Image',
+'Update Image'=>'Update Image',
+'Profile Image Updated'=>'Profile Image Updated',
+'Profile Image Updated Successfully'=>'Profile Image Updated Successfully',
+'Drag and drop image here or click to upload'=>'Drag and drop image here or click to upload',
+'Remove'=>'Remove',
+'Profile Picture'=>'Profile Picture',
+'Profile Not Image Updated'=>'Profile Not Image Updated',
+'Profile Image Not Provided'=>'Please upload a profile image then save it.',
+'enable_styled_table'=>'Enable Styled Tables',
+'table_color'=>'Table Header Color',
+'table_text_color'=>'Table Heder Text Color',
+'alt_group_icon_image'=>'Group Icon Image Path (Optional)',
+'disable_admin_twitter_feed'=>'Disable Admin Twitter Feed',
+'page_icon_image'=>'Page Icon Image Path (Optional)',
 ];

@@ -17,7 +17,7 @@ $func2_name='showNotifications';
 
 //check if sweetalert is allowed
 $installSWAL=($enablesweetalert==1) ? replace_function($appgini_file, $func2_name, $mod2_file) : '';
-echo replace_function($appgini_file, $func_name, $mod_file) . '<br>' . replaceIndex() . createDashboardViews() . '<br>' . adminOTPcreate().'<br>'.installReportsMenu().'<br>'.$installSWAL.'<br>'.installInHeaderExtras().'<br>'.installInFooterExtras().'<br>'.installCustomPagesMenu().'<br>'.createFiles().'<br>'.createOptionsTable().'<br>'.modifyAdminIncHeader();
+echo replace_function($appgini_file, $func_name, $mod_file) . '<br>' . replaceIndex() . createDashboardViews() . '<br>' . adminOTPcreate().'<br>'.installReportsMenu().'<br>'.$installSWAL.'<br>'.installInHeaderExtras().'<br>'.installInFooterExtras().'<br>'.installCustomPagesMenu().'<br>'.createFiles().'<br>'.createOptionsTable().'<br>'.modifyAdminIncHeader().'<br>'.setupStyledTable();
 
 #######################################
 
@@ -131,43 +131,82 @@ function installInFooterExtras(){
 }
 
 function modifyAdminIncHeader(){
-	global $appginilte_dir;
-	$incHederFile="{$appginilte_dir}/../admin/incHeader.php";
-	$codeInsert='<!-- INSERTED BY ADMINLTE FOR APGINI PLUGIN -->
-	<style>
-	.navbar  {
-	  opacity: 0.9;
-	  border-radius:8px;
-  	}
-	.navbar-brand .text-info{
-		color: white !important;
+    global $appginilte_dir,$disableadmintwitterfeed;
+
+    // File paths
+    $incHeaderFile = "{$appginilte_dir}/../admin/incHeader.php";
+
+    // Code blocks
+    $codeInsert1 = '<!-- INSERTED BY ADMINLTE FOR APGINI PLUGIN -->
+    <style>
+        .navbar  {
+            opacity: 0.9;
+            border-radius: 8px;
+        }
+        .navbar-brand .text-info{
+            color: white !important;
+        }
+        .navbar-right{
+            display: none;
+        }
+    </style>
+    <!-- INSERTED BY ADMINLTE FOR APGINI PLUGIN -->';
+
+    $codeInsert2 = '<!-- Inserted by AdminLTE Plugin For Appgini AIH1 -->
+    <script>
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            const container = document.querySelector(\'.container\');
+            if(container.classList.contains(\'admin-area\')) {
+                container.classList.remove(\'container\');
+            }
+        });
+    </script>
+    <!-- Inserted by AdminLTE Plugin For Appgini AIH1 -->';
+
+    $codeInsert3 = '<!-- Inserted by AdminLTE Plugin For Appgini AIH2 -->
+    <script>
+        document.addEventListener(\'DOMContentLoaded\', function() {
+            const anchors = document.querySelectorAll(\'a[target="_blank"]\');
+            anchors.forEach(anchor => {
+                anchor.removeAttribute(\'target\');
+            })
+        })
+    </script>
+    <!-- Inserted by AdminLTE Plugin For Appgini AIH2 -->';
+
+	$codeInsert4='<!-- Inserted by AdminLTE Plugin For Appgini AIH3 --><?php $adminConfig[\'hide_twitter_feed\']="1"; ?> <!-- Inserted by AdminLTE Plugin For Appgini AIH3 -->';
+
+    // Fetch the current contents of the file
+    $incHeaderFileContents = file_get_contents($incHeaderFile);
+
+    // Check and insert each code block if it doesn't exist
+    if (strpos($incHeaderFileContents, "INSERTED BY ADMINLTE FOR APGINI PLUGIN") === false) {
+        file_put_contents($incHeaderFile, $incHeaderFileContents."\n".$codeInsert1, LOCK_EX);
+        // Fetch the updated contents of the file
+        $incHeaderFileContents = file_get_contents($incHeaderFile);
+    }
+
+    if (strpos($incHeaderFileContents, "Inserted by AdminLTE Plugin For Appgini AIH1") === false) {
+        file_put_contents($incHeaderFile, $incHeaderFileContents."\n".$codeInsert2, LOCK_EX);
+        // Fetch the updated contents of the file
+        $incHeaderFileContents = file_get_contents($incHeaderFile);
+    }
+
+    if (strpos($incHeaderFileContents, "Inserted by AdminLTE Plugin For Appgini AIH2") === false) {
+        file_put_contents($incHeaderFile, $incHeaderFileContents."\n".$codeInsert3, LOCK_EX);
+        // Fetch the updated contents of the file
+        $incHeaderFileContents = file_get_contents($incHeaderFile);
+    }
+	if($disableadmintwitterfeed && strpos($incHeaderFileContents, "Inserted by AdminLTE Plugin For Appgini AIH3") === false){
+		file_put_contents($incHeaderFile, $incHeaderFileContents."\n".$codeInsert4, LOCK_EX);
+		// Fetch the updated contents of the file
+		$incHeaderFileContents = file_get_contents($incHeaderFile);
 	}
-	.navbar-right{
-		display: none;
-	}
-	</style>
-	<!-- INSERTED BY ADMINLTE FOR APGINI PLUGIN -->';
-	$codeInsert2='<!-- Inserted by AdminLTE Plugin For Appgini AIH1 -->
-	<script>
-	document.addEventListener(\'DOMContentLoaded\', function() {
-		const container = document.querySelector(\'.container\');
-		if(container.classList.contains(\'admin-area\')) {
-			container.classList.remove(\'container\');
-		}
-	});
-	</script>
-	<!-- Inserted by AdminLTE Plugin For Appgini AIH1 -->';
-	$incHederFileContents=file_get_contents($incHederFile);
-	if (!strpos($incHederFileContents, "INSERTED BY ADMINLTE FOR APGINI PLUGIN")) {
-		//string does not exist
-		file_put_contents($incHederFile, $incHederFileContents."\n".$codeInsert, LOCK_EX);
-	}
-	if(!strpos($incHederFileContents, "Inserted by AdminLTE Plugin For Appgini AIH1")) {
-		//string does not exist
-		file_put_contents($incHederFile, $incHederFileContents."\n".$codeInsert2, LOCK_EX);
-	}
-	return 'Modify admin incHeader.php success';
+
+    return 'Modify admin incHeader.php success';
 }
+
+
 
 function adminOTPcreate()
 {
@@ -230,7 +269,7 @@ function installCustomPagesMenu(){
 	global $appginilte_dir;
 	$file=file_get_contents("{$appginilte_dir}/../hooks/links-navmenu.php");
 	$navlinkscode='
-	//AppginiLTECustomPagesNavLinks_23.05.26
+	//AppginiLTECustomPagesNavLinks_24.03.01
 	$generalsettingsData=json_decode(sqlValue("SELECT option_value FROM alte_options WHERE option_name=\'generalsettings_config\'"), true);
 	$enablecustompages=$generalsettingsData[\'enablecustompages\']?$generalsettingsData[\'enablecustompages\']:0;
 	$files = scandir(\'appginilte/custompages/pagesdata\');
@@ -245,8 +284,8 @@ function installCustomPagesMenu(){
 					\'url\'=>\'appginilte_page.php?page=\'.$file_contents[\'FileName\'],
 					\'title\'=>$file_contents[\'pageName\'],
 					\'groups\'=>$pageAccess,
-					\'icon\'=>$file_contents[\'pageIcon\'],
-					\'icon_type\'=>\'fa\',
+					\'icon\'=>($file_contents[\'pageIconImage\']==\'\')?$file_contents[\'pageIcon\']:$file_contents[\'pageIconImage\'],
+					\'icon_type\'=>($file_contents[\'pageIconImage\']<>\'\')?\'img\':\'fa\',
 					\'table_group\'=>$file_contents[\'pageGroup\'],
 					\'CustomLink\'=>$file_contents[\'CustomLink\'],
 					\'hidenavmenu\'=>$file_contents[\'hidenavmenu\'],
@@ -254,8 +293,8 @@ function installCustomPagesMenu(){
 			}
 		}
 	}
-	//EndAppginiLTECustomPagesNavLinks_23.05.26';
-	if(!strpos($file, "AppginiLTECustomPagesNavLinks_23.05.26")){
+	//EndAppginiLTECustomPagesNavLinks_24.03.01';
+	if(!strpos($file, "AppginiLTECustomPagesNavLinks_24.03.01")){
 		file_put_contents("{$appginilte_dir}/../hooks/links-navmenu.php", $file."\n".$navlinkscode, LOCK_EX);
 	}
 	return 'custom pages menu setup success';
@@ -435,4 +474,40 @@ function createOptionsTable(){
 	  if(sql($sql,$eo)==TRUE){
 		return 'Options table created';
 	  }
+}
+
+function setupStyledTable(){
+	global $appginilte_dir;
+	$insertCode='<!-- ALTE STYLED TABLE CODE V1 -->
+	<?php include(PREPEND_PATH."hooks/alte_styled-table.php"); ?>
+	<!-- ALTE STYLED TABLE CODE V1 -->';
+	$insertCode2='<!-- ALTE STYLED TABLE INIT V1 -->
+	<?php echo \'<script>const tables = document.querySelectorAll("table");
+	// Loop through each table and add the "styled-table" class
+	tables.forEach(function(table) {
+	  table.classList.add("styled-table");
+	});</script>\';
+	?>
+	<!-- ALTE STYLED TABLE INIT V1 -->';
+
+	$file = file_get_contents("{$appginilte_dir}/../hooks/header-extras.php");
+	$file2= file_get_contents("{$appginilte_dir}/../hooks/footer-extras.php");
+	if (!strpos($file, "ALTE STYLED TABLE CODE V1")) {
+		//string does not exist
+		file_put_contents("{$appginilte_dir}/../hooks/header-extras.php", $insertCode . "\n" . file_get_contents("{$appginilte_dir}/../hooks/header-extras.php"), LOCK_EX);
+	}
+	if (!strpos($file2, "ALTE STYLED TABLE INIT V1")) {
+		//string does not exist
+		file_put_contents("{$appginilte_dir}/../hooks/footer-extras.php", $insertCode2 . "\n" . file_get_contents("{$appginilte_dir}/../hooks/footer-extras.php"), LOCK_EX);
+	}
+	//copy file alte_styled-table.php from current directory and paste it in hooks directory
+	$file = 'alte_styled-table.php';
+	$sourcePath = __DIR__ . '/' . $file;
+	$destinationPath = PREPEND_PATH . 'hooks/' . $file;
+
+	if (copy($sourcePath, $destinationPath)) {
+	    return 'Styled table setup success.';	
+	} else {
+	    return 'Styled table setup error';
+	}
 }

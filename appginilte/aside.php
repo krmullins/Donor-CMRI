@@ -17,13 +17,13 @@ foreach ($groups as $grp => $tables) {
   $tlink = '';
   if ($grp !== "None") {
     // code...
-    $gn = str_replace(" ", "_", $grp);
-    $grpicon = $cjson[$gn . '_fa'] ? $cjson[$gn . '_fa'] : 'fa fa-table';
+    $gn=crc32($grp);
+    $grpicon = ($cjson[$gn . '_ico'] && !$cjson[$gn . '_fa']) ? ' <img src="'.$cjson[$gn . '_ico'].'" height="32">' : '  <i class="nav-icon '.($cjson[$gn . '_fa'] ? $cjson[$gn . '_fa'] : 'fa fa-table').'"></i>';
     $grpcollapsed=$cjson[$gn . '_collapsed'];
     $navitemclass=''; $liststyle=''; if($grpcollapsed=="0"){ $navitemclass="menu-is-opening menu-open"; $liststyle='style="display: block;"'; }
     $grptop = '<li class="nav-item '.$navitemclass.'">
     <a href="#" class="nav-link">
-      <i class="nav-icon ' . $grpicon . '"></i>
+      ' . $grpicon . '
       <p>
         ' . $grp . '
         <i class="right fas fa-angle-left"></i>
@@ -121,10 +121,12 @@ foreach ($get_custom_menus as $cmenu) {
   $custom_menu_icon = $cmenu['customGroupIcon'];
   $customGroupCollapsed=$cmenu['customGroupCollapsed'];
   $CustomGroupHidenavmenu=$cmenu['CustomGroupHidenavmenu'];
+  $customGroupImage=$cmenu['customGroupImage'];
+  $menu_icon=($customGroupImage=='')?'<i class="'.$custom_menu_icon.' nav-icon"></i>':'<img src="'.$customGroupImage.'">';
   $navitemclass=''; $liststyle=''; $menuhidden=''; if($customGroupCollapsed=="No"){ $navitemclass="menu-is-opening menu-open"; $liststyle='style="display: block;"'; } if($CustomGroupHidenavmenu=="Yes"){$menuhidden='style="display: none;"'; }
     $grptop = '<li class="nav-item '.$navitemclass.'" '.$menuhidden.'>
     <a href="#" class="nav-link">
-      <i class="nav-icon ' . $custom_menu_icon . '"></i>
+      ' . $menu_icon . '
       <p>
         ' . $custom_menu_name . '
         <i class="right fas fa-angle-left"></i>

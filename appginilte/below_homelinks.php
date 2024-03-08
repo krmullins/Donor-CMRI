@@ -7,11 +7,7 @@ if ($group=="anonymous") {
 			include "views/anonymous_Bottom.php";
 		}
 
-if ($group=="Staff") {
-			include "views/Staff_Bottom.php";
-		}
-
-if ($group=="Supply Management") {
-			include "views/Supply_Management_Bottom.php";
+if ($group=="Main") {
+			include "views/Main_Bottom.php";
 		}
  ?>

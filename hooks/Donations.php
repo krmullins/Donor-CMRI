@@ -2,6 +2,10 @@
 	// For help on using hooks, please refer to https://bigprof.com/appgini/help/working-with-generated-web-database-application/hooks
 
 	function Donations_init(&$options, $memberInfo, &$args) {
+		/* Inserted by Search Page Maker for AppGini on 2023-12-05 11:12:34 */
+		$options->FilterPage = 'hooks/Donations_filter.php';
+		/* End of Search Page Maker for AppGini code */
+
 
 		return TRUE;
 	}

@@ -62,11 +62,13 @@ function checkLinksNavMenu()
     $comment = "appginilte reports links";
     $comment2="AdminLTE For Appgini reports links";
     $comment3="AppginiLTE Custom Pages";
+    $comment4="AppginiLTECustomPagesNavLinks_23.05.26";
     if (file_exists($file)) {
         $lines = file($file); // read file into an array of lines
         $found = array();
         $found2= array();
         $found3=array();
+        $found4=array();
         foreach ($lines as $lineNumber => $line) {
             if (strpos($line, $comment) !== false) {
                 $found[] = $lineNumber + 1; // store the line number (starting from 1)
@@ -92,6 +94,15 @@ function checkLinksNavMenu()
         }
         if (count($found3) > 0) {
             echo "<li>The <b>'$file'</b> file has outdated code for AppginiLTE Custom Pages NavLinks,Please delete/remove this entire code starting from line: " . implode(", to line: ", $found3) . " including the comments '$comment3'</li>";
+        }
+        //check for existance of comment4
+        foreach ($lines as $lineNumber => $line) {
+            if (strpos($line, $comment4) !== false) {
+                $found4[] = $lineNumber + 1; // store the line number (starting from 1)
+            }
+        }
+        if (count($found4) > 0) {
+            echo "<li>The <b>'$file'</b> file has outdated code for AppginiLTE Custom Pages NavLinks,Please delete/remove this entire code starting from line: " . implode(", to line: ", $found4) . " including the comments '$comment4'</li>";
         }
     }
 }

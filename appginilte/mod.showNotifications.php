@@ -8,34 +8,34 @@ function showNotifications($msg = '', $class = '', $fadeout = true)
 	}
 
 	if (!$msg) { // if no msg, use url to detect message to display
-		$msg = $_SESSION['custom_err_msg'];
-		$footer = $_SESSION['alert_footer'];
-		if ($_REQUEST['record-added-ok'] != '') {
+		$msg = $_SESSION['custom_err_msg']??'';
+		$footer = $_SESSION['alert_footer']??'';
+		if (Request::val('record-added-ok')) {
 			$msg = ($msg == '') ? $Translation['new record saved'] : $msg;
 			unset($_SESSION['custom_err_msg']);
 			unset($_SESSION['alert_footer']);
 			$class = 'success';
-		} elseif ($_REQUEST['record-added-error'] != '') {
+		} elseif (Request::val('record-added-error')) {
 			$msg = ($msg == '') ? $Translation['Couldn\'t save the new record'] : $msg;
 			unset($_SESSION['custom_err_msg']);
 			unset($_SESSION['alert_footer']);
 			$class = 'error';
-		} elseif ($_REQUEST['record-updated-ok'] != '') {
+		} elseif (Request::val('record-updated-ok')) {
 			$msg = ($msg == '') ? $Translation['record updated'] : $msg;
 			unset($_SESSION['custom_err_msg']);
 			unset($_SESSION['alert_footer']);
 			$class = 'success';
-		} elseif ($_REQUEST['record-updated-error'] != '') {
+		} elseif (Request::val('record-updated-error')) {
 			$msg = ($msg == '') ? $Translation['Couldn\'t save changes to the record'] : $msg;
 			unset($_SESSION['custom_err_msg']);
 			unset($_SESSION['alert_footer']);
 			$class = 'error';
-		} elseif ($_REQUEST['record-deleted-ok'] != '') {
+		} elseif (Request::val('record-deleted-ok')) {
 			$msg = ($msg == '') ? $Translation['The record has been deleted successfully'] : $msg;
 			unset($_SESSION['custom_err_msg']);
 			unset($_SESSION['alert_footer']);
 			$class = 'success';
-		} elseif ($_REQUEST['record-deleted-error'] != '') {
+		} elseif (Request::val('record-deleted-error')) {
 			$msg = ($msg == '') ? $Translation['Couldn\'t delete this record'] : $msg;
 			unset($_SESSION['custom_err_msg']);
 			unset($_SESSION['alert_footer']);
@@ -44,7 +44,6 @@ function showNotifications($msg = '', $class = '', $fadeout = true)
 			return '';
 		}
 	}
-	$id = 'notification-' . rand();
 
 	ob_start();
 	// notification template
@@ -54,11 +53,18 @@ function showNotifications($msg = '', $class = '', $fadeout = true)
 		Swal.fire({
 			position: 'top',
 			icon: '<?php echo $class ?>',
-			title: '<?php echo ($class == "success") ? "Yeey!" : "Oops!"; ?>',
+			title: '<?php echo ($class == "success") ? "Ok!" : "Oops!"; ?>',
 			text: '<?php echo $msg ?>',
 			footer: '<?php echo $footer ??''; ?>',
-			showConfirmButton: true,
+			showConfirmButton: ('<?php echo $class ?>' != 'error'),
+			confirmButtonText: ('<?php echo $class ?>' == 'error') ? 'Back' : 'OK',
+			showCancelButton: ('<?php echo $class ?>' == 'error'),
+			cancelButtonText: 'Back',
 			width: '50%',
+		}).then((result) => {
+			if ('<?php echo $class ?>' == 'error' && result.dismiss === Swal.DismissReason.cancel) {
+				window.history.back();
+			}
 		});
 	</script>
 <?php

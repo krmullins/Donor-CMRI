@@ -1,5 +1,11 @@
-<?php include 'appginilte_header.php'; ?>
-
+<?php 
+if(isset($_COOKIE['currentURL']) && $_COOKIE['currentURL']) {
+  $redirectURL = $_COOKIE['currentURL'];
+  setcookie('currentURL', '', time() - 3600, '/');
+  redirect($redirectURL,false);
+}
+include 'appginilte_header.php'; 
+?>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
