@@ -1,6 +1,6 @@
 var AppGini = AppGini || {};
 
-AppGini.version = 23.17;
+AppGini.version = 24.10;
 
 /* initials and fixes */
 jQuery(function() {
@@ -1871,6 +1871,12 @@ AppGini.alterDVTitleLinkToBack = function() {
 	})
 }
 
+AppGini.isRecordUpdated = () => {
+	var url = new URL(window.location.href);
+	var params = new URLSearchParams(url.search);
+	return params.has('record-updated-ok') || params.has('record-added-ok');
+}
+
 AppGini.lockUpdatesOnUserRequest = function() {
 	// if this is not DV of existing record where editing and saving a copy are both enabled, skip
 	if(!$j('#update').length || !$j('#insert').length || !$j('input[name=SelectedID]').val().length) return;
@@ -1902,6 +1908,9 @@ AppGini.lockUpdatesOnUserRequest = function() {
 			locker.toggleClass('active');
 			locker.prop('title', AppGini.Translate._map[locker.hasClass('active') ? 'Enable' : 'Disable']);
 		})
+
+	// if record has just been added/updated, lock updates
+	if(AppGini.isRecordUpdated()) $j('.btn-update-locker').trigger('click');
 }
 
 /* function to focus a specific element of a form, given field name */

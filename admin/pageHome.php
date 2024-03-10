@@ -1,4 +1,3 @@
-<?php include "appginilte_otp.php"; check_otp(); ?>
 <?php
 	require(__DIR__ . '/incCommon.php');
 	$GLOBALS['page_title'] = $Translation['membership management homepage'];

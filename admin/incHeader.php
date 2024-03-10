@@ -204,10 +204,10 @@
 							<li><a href="app-documentation.php"><i class="glyphicon menu-item-icon text-info glyphicon-book"></i> <?php echo $Translation['app documentation']; ?></a></li>
 							<li><a href="pageTranslation.php"><i class="glyphicon menu-item-icon text-info glyphicon-globe"></i> <?php echo $Translation['translation tool']; ?></a></li>
 							<li class="divider"></li>
-							<li><a href="pageTransferOwnership.php"><i class="glyphicon menu-item-icon text-info glyphicon-transfer"></i> <?php echo $Translation['batch transfer']; ?></a></li>
+							<li><a href="pageTransferOwnership.php"><i class="glyphicon menu-item-icon text-info glyphicon-transfer"></i> <?php echo $Translation['ownership batch transfer']; ?></a></li>
 							<li><a href="pageRebuildFields.php"><i class="glyphicon menu-item-icon text-info glyphicon-refresh"></i> <?php echo  $Translation['view or rebuild fields']; ?></a></li>
 							<li><a href="pageBackupRestore.php"><i class="glyphicon menu-item-icon text-info glyphicon-tasks"></i> <?php echo $Translation['database backups']; ?></a></li>
-							<li><a href="pageUploadCSV.php"><i class="glyphicon menu-item-icon text-info glyphicon-upload"></i> <?php echo $Translation['import CSV']; ?></a></li>
+							<li><a href="../import-csv.php"><i class="glyphicon menu-item-icon text-info glyphicon-upload"></i> <?php echo $Translation['import CSV']; ?></a></li>
 							<li><a href="pageQueryLogs.php"><i class="glyphicon menu-item-icon text-info glyphicon-book"></i> <?php echo $Translation['Query logs']; ?></a></li>
 							<li><a href="pageSQL.php"><i class="glyphicon menu-item-icon text-danger glyphicon-console"></i> <?php echo $Translation['Interactive SQL queries tool']; ?></a></li>
 							<li><a href="pageUpdateCalculatedFields.php"><i class="glyphicon menu-item-icon text-info glyphicon-refresh"></i> <?php echo $Translation['update calculated fields']; ?></a></li>
@@ -292,38 +292,3 @@
 		</div>
 	<?php  } ?>
 
-
-<!-- INSERTED BY ADMINLTE FOR APGINI PLUGIN -->
-    <style>
-        .navbar  {
-            opacity: 0.9;
-            border-radius: 8px;
-        }
-        .navbar-brand .text-info{
-            color: white !important;
-        }
-        .navbar-right{
-            display: none;
-        }
-    </style>
-    <!-- INSERTED BY ADMINLTE FOR APGINI PLUGIN -->
-<!-- Inserted by AdminLTE Plugin For Appgini AIH1 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.querySelector('.container');
-            if(container.classList.contains('admin-area')) {
-                container.classList.remove('container');
-            }
-        });
-    </script>
-    <!-- Inserted by AdminLTE Plugin For Appgini AIH1 -->
-<!-- Inserted by AdminLTE Plugin For Appgini AIH2 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const anchors = document.querySelectorAll('a[target="_blank"]');
-            anchors.forEach(anchor => {
-                anchor.removeAttribute('target');
-            })
-        })
-    </script>
-    <!-- Inserted by AdminLTE Plugin For Appgini AIH2 -->
