@@ -128,8 +128,17 @@
 
 			function print_invoice(){
 				var selectedID = '<?php echo urlencode($selectedID); ?>';
-				var year = '2023'
-				window.location = 'donations_invoice.php?SupporterID=' + selectedID + '&DonationYear=' + year;
+				modal_window({
+					message:'Enter a year for the invoice to print: <input type="number" id="invoice-year" max="2050" min="2020">',
+					footer: [{
+						label:'OK',
+						click:function() {
+   						var year = $j('#invoice-year').val()
+						   window.location = 'donations_invoice.php?SupporterID=' + selectedID + '&DonationYear=' + year;
+						}
+					}]
+				})
+
 			}
 		</script>
 		<script>
