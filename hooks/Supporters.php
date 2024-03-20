@@ -141,23 +141,6 @@
 
 			}
 		</script>
-		<script>
-			$j(function(){
-				<?php if($selectedID){ ?>
-					$j('#Supporters_dv_action_buttons .btn-toolbar').append(
-						'<div class="btn-group-vertical btn-group-lg" style="width: 100%;">' +
-							'<button type="button" class="btn btn-info btn-lg" onclick="authorize()">' +
-								'<i class="glyphicon glyphicon-credit-card"></i> Capture Card</button>'+
-						'</div>'
-					);
-				<?php } ?>
-			});
-
-			function authorize(){
-				var selectedID = '<?php echo urlencode($selectedID); ?>';
-				window.location = 'payments.php?SupporterID=' + selectedID;
-			}
-		</script>
 		<?php 
 		$form_code = ob_get_contents();
 		ob_end_clean();

@@ -266,7 +266,7 @@
 	#########################################################
 
 	function htmlUserBar() {
-		global $Translation;
+    global $Translation;
 		if(!defined('PREPEND_PATH')) define('PREPEND_PATH', '');
 
 		$mi = getMemberInfo();
@@ -275,7 +275,7 @@
 		ob_start();
 
 		?>
-		<nav class="navbar navbar-default navbar-fixed-top hidden-print" role="navigation">
+		<nav class="navbar navbar-default navbar-fixed-top hidden" role="navigation">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -319,7 +319,7 @@
 						<ul class="nav navbar-nav navbar-right hidden-xs">
 							<!-- logged user profile menu -->
 							<li class="dropdown" title="<?php echo html_attr("{$Translation['signed as']} {$mi['username']}"); ?>">
-								<a href="#" class="dropdown-toggle profile-menu-icon" data-toggle="dropdown"><i class="glyphicon glyphicon-user icon"></i><span class="profile-menu-text"><?php echo $mi['username']; ?></span><b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle profile-menu-icon" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i></a>
 								<ul class="dropdown-menu profile-menu">
 									<li class="user-profile-menu-item" title="<?php echo html_attr("{$Translation['Your info']}"); ?>">
 										<a href="<?php echo PREPEND_PATH; ?>membership_profile.php"><i class="glyphicon glyphicon-user"></i> <span class="username"><?php echo $mi['username']; ?></span></a>
@@ -360,7 +360,7 @@
 		<?php
 
 		return ob_get_clean();
-	}
+}
 
 	#########################################################
 

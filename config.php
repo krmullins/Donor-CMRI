@@ -9,7 +9,7 @@
 
 	$adminConfig = [
 		'adminUsername' => "kevin",
-		'adminPassword' => "\$2y\$10\$pDX0qxxYfwHPiv5oQwAn5e37N5tvaNO/ugHagLeFV9lPHPElQHOgq",
+		'adminPassword' => "\$2y\$10\$oTVMJ1UAm.XnBl3FlvB2We6Fr1papTAt/hv.9fE.1FrhYLqC78htm",
 		'senderEmail' => "krmullins@gmail.com",
 		'notifyAdminNewMembers' => "",
 		'defaultSignUp' => "1",

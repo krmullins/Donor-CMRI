@@ -6,8 +6,4 @@ if ($group=="Admins") {
 if ($group=="anonymous") {
 			include "views/anonymous_Top.php";
 			}
-
-if ($group=="Main") {
-			include "views/Main_Top.php";
-			}
  ?>
